@@ -1,0 +1,69 @@
+@startuml usecase
+
+left to right direction
+:User: as User
+:User Terdaftar: as UT
+:Visitor: as V
+:Klien: as K
+:Admin: as Admin
+:Owner: as Owner
+
+User <.. UT : generalization
+User <.. V : generalization
+UT <.. K : generalization
+UT <.. Admin : generalization
+Admin <.. Owner : generalization
+
+package "Aplikasi Web" {
+    ' fitur user secara umum
+    usecase (Read dan update data diri) as ruDataDiri
+
+    'fitur user owner
+    usecase (CRUD akun admin) as crudAkunAdmin
+
+    ' fitur user admin
+    usecase (CRUD akun user) as crudAkunUser
+    usecase (CRUD appointment) as crudAppoint
+
+    ' fitur user klien terdaftar
+    usecase (Tampil informasi\n salon) as menampilkanInformasi
+    usecase (Daftar akun) as daftarAkun
+    usecase (Login) as login
+    usecase (Booking service) as bs
+    usecase (Batal/majukan jadwal) as batalMajuJadwal
+}
+
+User -- menampilkanInformasi
+
+UT -- ruDataDiri
+
+Owner -- crudAkunAdmin
+
+Admin -- login
+Admin -- crudAkunUser
+Admin -- crudAppoint
+
+K -- login
+K -- bs
+K -- batalMajuJadwal
+
+' note right of daftarAkun
+'     Daftar menggunakan No. Telepon, Nama, Password
+' end note
+
+' note right of login
+'     Login menggunakan No. Telepon, dan Password
+' end note
+
+' note top of bs
+'     pilih waktu, cabang, dan operator, dan service
+' end note
+
+V -- daftarAkun
+
+login <.. bs : include
+login <.. batalMajuJadwal : include
+login <.. crudAkunAdmin : include
+login <.. crudAkunUser : include
+login <.. crudAppoint : include
+@enduml
