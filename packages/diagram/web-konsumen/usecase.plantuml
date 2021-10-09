@@ -1,0 +1,43 @@
+@startuml usecase
+
+left to right direction
+:User: as User
+:User Tidak Terdaftar: as UTT
+:User Terdaftar: as UT
+
+User <|-- UTT
+User <|-- UT
+
+package "Web Konsumen" {
+usecase (menampilkan informasi\n salon) as menampilkanInformasi
+usecase (Daftar Akun) as daftarAkun
+usecase (Login) as login
+usecase (Booking service) as bs
+usecase (batalkan jadwal) as batalkanJadwal
+usecase (majukan jadwal) as majukanJadwal
+}
+
+User -- menampilkanInformasi
+
+UTT -- daftarAkun
+note bottom of daftarAkun
+    Daftar menggunakan No. Telepon, Nama, Password
+end note
+
+UT -- login
+note top of login
+    Login menggunakan No. Telepon, dan Password
+end note
+
+UT -- bs
+note top of bs
+    booking jadwal salon (pilih hari, jam, cabang, dan operator, dan paket atau service)
+end note
+
+UT -- batalkanJadwal
+UT -- majukanJadwal
+
+login <.. bs : include
+login <.. batalkanJadwal : include
+login <.. majukanJadwal : include
+@enduml
