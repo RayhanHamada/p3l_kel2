@@ -1,0 +1,88 @@
+@startuml erd
+
+hide circle
+
+entity "Waktu Buka" {
+    *waktu_buka_id  : int <<PK>>
+    --
+    *cabang_id      : int <<FK>>
+    open_time       : int
+    close_time      : int
+
+    hari            : smallint
+
+    createdAt       : timestamp
+    lastUpdatedAt   : timestamp
+}
+
+entity Cabang {
+    *cabang_id      : int <<PK>>
+    --
+    nama_cabang     : varchar
+    alamat          : text
+    nomor_telepon   : varchar
+
+    createdAt       : timestamp
+    lastUpdatedAt   : timestamp
+}
+
+entity Admin {
+    *admin_id       : int <<PK>>
+    --
+    *cabang_id      : int <<FK>>
+    nama_admin      : varchar
+    owner           : boolean
+    lastLoginAt     : timestamp
+
+    createdAt       : timestamp
+    lastUpdatedAt   : timestamp
+}
+
+entity Operator {
+    *operator_id    : int <<PK>>
+    --
+    *cabang_id      : int <<FK>>
+    nama_operator   : varchar
+    available       : boolean
+
+    createdAt       : timestamp
+    lastUpdatedAt   : timestamp
+}
+
+entity Klien {
+    *klien_id       : int <<PK>>
+    --
+    nama_klien      : varchar
+    nomor_telepon   : varchar
+    jenis_kelamin   : enum('P', 'W')
+    lastLoginAt     : timestamp
+
+    createdAt       : timestamp
+    lastUpdatedAt   : timestamp
+}
+
+entity Perjanjian {
+    *perjanjian_id  : int <<PK>>
+    --
+    *cabang_id      : int <<FK>>
+    *operator_id    : int <<FK>>
+    *klien_id       : int <<FK>>
+    jenis_service   : text
+    perkiraan_harga : decimal
+    dalam_proses    : boolean
+    selesai         : boolean
+    dibatalkan      : boolean
+    waktu           : timestamp
+
+    createdAt       : timestamp
+    lastUpdatedAt   : timestamp
+}
+
+
+Perjanjian |o--|| Klien
+Perjanjian ||--|| Operator
+Perjanjian }|--|| Cabang
+Cabang ||--|{ Operator
+Cabang ||--|{ Admin
+Cabang ||--|{ "Waktu Buka"
+@enduml
