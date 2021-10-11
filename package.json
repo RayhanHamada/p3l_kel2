@@ -1,8 +1,21 @@
 {
-  "name": "p3l_kel2",
-  "packageManager": "yarn@3.0.2",
+  "name": "root",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ]
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
+  "version": "1.0.0",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RayhanHamada/p3l_kel2.git"
+  },
+  "keywords": [],
+  "author": "RayhanHamada <rayhanhamada1999@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RayhanHamada/p3l_kel2/issues"
+  },
+  "homepage": "https://github.com/RayhanHamada/p3l_kel2#readme",
+  "description": "Monorepo aplikasi"
 }
