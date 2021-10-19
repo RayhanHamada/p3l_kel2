@@ -1,0 +1,25 @@
+@startuml web admin
+
+left to right direction
+:User: as User
+:Admin: as Admin
+:Owner: as Owner
+User <.. Admin : generalization
+Admin <.. Owner : generalization
+
+package "Aplikasi Web" {
+    'fitur user owner
+    usecase (CRUD akun admin) as crudAkunAdmin
+
+    ' fitur user admin
+    usecase (Login) as login
+    usecase (CRUD akun user) as crudAkunUser
+    usecase (CRUD appointment) as crudAppoint
+}
+
+Owner -- crudAkunAdmin
+
+Admin -- login
+Admin -- crudAkunUser
+Admin -- crudAppoint
+@enduml

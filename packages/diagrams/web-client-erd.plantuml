@@ -2,36 +2,46 @@
 
 hide circle
 
-entity "Waktu Buka" {
-    *waktu_buka_id  : int <<PK>>
-    --
-    *cabang_id      : int <<FK>>
-    open_time       : int
-    close_time      : int
-
-    hari            : smallint
-
-    createdAt       : timestamp
-    lastUpdatedAt   : timestamp
-}
-
 entity Cabang {
     *cabang_id      : int <<PK>>
     --
     nama_cabang     : varchar
-    alamat          : text
-    nomor_telepon   : varchar
 
     createdAt       : timestamp
     lastUpdatedAt   : timestamp
 }
 
+entity JenisService {
+    *jenis_service_id   : serial <<PK>>
+    --
+    nama_service        : varchar
+    perkiraan_harga     : decimal
+}
+
+entity BookedService {
+    *booked_service_id  : serial <<PK>>
+    --
+    *cabang_id          : int <<FK>>
+    *jenis_service_id   : int <<FK>>
+    *operator_id        : int <<FK>>
+    *klien_id           : int <<FK>>
+    *jam_id             : int <<FK>>
+    tanggal             : date
+    
+}
+
+entity Jam {
+    *jam_id         : serial <<PK>>
+    --
+    jam_ke          : int
+    pukul           : varchar
+}
+
 entity Admin {
-    *admin_id       : int <<PK>>
+    *admin_id       : serial <<PK>>
     --
     *cabang_id      : int <<FK>>
     nama_admin      : varchar
-    owner           : boolean
     lastLoginAt     : timestamp
 
     createdAt       : timestamp
@@ -39,18 +49,25 @@ entity Admin {
 }
 
 entity Operator {
-    *operator_id    : int <<PK>>
+    *operator_id    : serial <<PK>>
     --
     *cabang_id      : int <<FK>>
     nama_operator   : varchar
-    available       : boolean
+
+    senin_available : boolean
+    selasa_available: boolean
+    rabu_available  : boolean
+    kamis_available : boolean
+    jumat_available : boolean
+    sabtu_available : boolean
+    minggu_available: boolean
 
     createdAt       : timestamp
     lastUpdatedAt   : timestamp
 }
 
 entity Klien {
-    *klien_id       : int <<PK>>
+    *klien_id       : serial <<PK>>
     --
     nama_klien      : varchar
     nomor_telepon   : varchar
@@ -61,28 +78,14 @@ entity Klien {
     lastUpdatedAt   : timestamp
 }
 
-entity Perjanjian {
-    *perjanjian_id  : int <<PK>>
-    --
-    *cabang_id      : int <<FK>>
-    *operator_id    : int <<FK>>
-    *klien_id       : int <<FK>>
-    jenis_service   : text
-    perkiraan_harga : decimal
-    dalam_proses    : boolean
-    selesai         : boolean
-    dibatalkan      : boolean
-    waktu           : timestamp
+BookedService }|--|{ Operator
+BookedService }|--|{ JenisService
+BookedService ||--|{ Klien
+BookedService }|--|| Jam
+BookedService }|--|| Cabang
 
-    createdAt       : timestamp
-    lastUpdatedAt   : timestamp
-}
+Admin }|--|| Cabang
 
+Operator }|--|| Cabang
 
-Perjanjian |o--|| Klien
-Perjanjian ||--|| Operator
-Perjanjian }|--|| Cabang
-Cabang ||--|{ Operator
-Cabang ||--|{ Admin
-Cabang ||--|{ "Waktu Buka"
 @enduml
