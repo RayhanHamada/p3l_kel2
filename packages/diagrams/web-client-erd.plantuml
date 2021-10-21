@@ -3,7 +3,7 @@
 hide circle
 
 entity Cabang {
-    *cabang_id      : int <<PK>>
+    *cabang_id      : serial <<PK>>
     --
     nama_cabang     : varchar
 
