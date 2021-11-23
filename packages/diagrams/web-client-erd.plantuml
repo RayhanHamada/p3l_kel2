@@ -2,57 +2,103 @@
 
 hide circle
 
-entity Cabang {
-    *cabang_id      : serial <<PK>>
-    --
-    nama_cabang     : varchar
-
-    createdAt       : timestamp
-    lastUpdatedAt   : timestamp
-}
-
-entity JenisService {
-    *jenis_service_id   : serial <<PK>>
-    --
-    nama_service        : varchar
-    perkiraan_harga     : decimal
-}
-
-entity BookedService {
-    *booked_service_id  : serial <<PK>>
-    --
-    *cabang_id          : int <<FK>>
-    *jenis_service_id   : int <<FK>>
-    *operator_id        : int <<FK>>
-    *klien_id           : int <<FK>>
-    *jam_id             : int <<FK>>
-    tanggal             : date
-    
-}
-
-entity Jam {
-    *jam_id         : serial <<PK>>
-    --
-    jam_ke          : int
-    pukul           : varchar
-}
-
 entity Admin {
-    *admin_id       : serial <<PK>>
+    *id             : serial <<PK>>
     --
     *cabang_id      : int <<FK>>
     nama_admin      : varchar
+    email           : string
+    password        : string
     lastLoginAt     : timestamp
 
-    createdAt       : timestamp
-    lastUpdatedAt   : timestamp
+    created_at      : timestamp
+    updated_at      : timestamp
 }
 
-entity Operator {
-    *operator_id    : serial <<PK>>
+entity Appointment {
+    *id                 : bigserial <<PK>>
+    --
+    *cabang_id          : int <<FK>>
+    *rendered_service_id: int <<FK>>
+    *stylish_id         : int <<FK>>
+    *klien_id           : int <<FK>>
+    *jam_id             : int <<FK>>
+    cancel              : boolean
+    done                : boolean
+    note                : text
+    tanggal             : date
+
+    created_at          : timestamp
+    updated_at          : timestamp
+}
+
+entity Cabang {
+    *id             : serial <<PK>>
+    --
+    cabang_name     : varchar
+
+    created_at      : timestamp
+    updated_at      : timestamp
+}
+
+entity Jam {
+    *id             : serial <<PK>>
+    --
+    cabang_id       : int <<FK>>
+    jam_ke          : int
+    pukul           : varchar
+
+    created_at      : timestamp
+    updated_at      : timestamp
+}
+
+entity Klien {
+    *id             : serial <<PK>>
+    --
+    nama_klien      : varchar
+    phone_number    : varchar
+    jenis_kelamin   : enum('P', 'W')
+    last_login_at   : timestamp
+
+    created_at      : timestamp
+    updated_at      : timestamp
+}
+
+entity RenderedService {
+    *id                 : bigserial <<PK>>
+    --
+    appointment_id      : int <<FK>>
+    service_id          : int <<FK>>
+    
+    created_at          : timestamp
+    updated_at          : timestamp
+}
+
+entity Service {
+    *id                 : serial <<PK>>
+    --
+    service_name        : varchar
+    estimate_price      : decimal
+
+    created_at          : timestamp
+    updated_at          : timestamp
+}
+
+entity ServiceCategory {
+    *id             : serial <<PK>>
+    --
+    category_name   : varchar
+
+    created_at      : timestamp
+    updated_at      : timestamp
+}
+
+entity Stylish {
+    *id             : serial <<PK>>
     --
     *cabang_id      : int <<FK>>
-    nama_operator   : varchar
+    stylish_name    : varchar(80)
+    phone_number    : varchar
 
     senin_available : boolean
     selasa_available: boolean
@@ -62,30 +108,23 @@ entity Operator {
     sabtu_available : boolean
     minggu_available: boolean
 
-    createdAt       : timestamp
-    lastUpdatedAt   : timestamp
+    created_at      : timestamp
+    updated_at      : timestamp
 }
 
-entity Klien {
-    *klien_id       : serial <<PK>>
-    --
-    nama_klien      : varchar
-    nomor_telepon   : varchar
-    jenis_kelamin   : enum('P', 'W')
-    lastLoginAt     : timestamp
+ServiceCategory ||--|{ Service
+Appointment }|--|| Stylish
+Appointment }|--|| Klien
+Appointment }|--|| Jam
+Appointment }|--|| Cabang
+Appointment ||--|{ RenderedService
 
-    createdAt       : timestamp
-    lastUpdatedAt   : timestamp
-}
+RenderedService ||--|{ Service
 
-BookedService }|--|{ Operator
-BookedService }|--|{ JenisService
-BookedService ||--|{ Klien
-BookedService }|--|| Jam
-BookedService }|--|| Cabang
+Jam }|--|| Cabang
 
 Admin }|--|| Cabang
 
-Operator }|--|| Cabang
+Stylish }|--|| Cabang
 
 @enduml

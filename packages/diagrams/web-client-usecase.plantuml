@@ -1,31 +1,20 @@
 @startuml usecase
 
 left to right direction
-:User: as U
-:Visitor: as V
 :Klien: as K
-
-U <.. V : generalization
-U <.. K : generalization
 
 package "Aplikasi Web" {
     ' fitur user secara umum
-    usecase (Read dan update data diri) as ruDataDiri
 
     ' fitur user klien terdaftar
     usecase (Tampil informasi\n salon) as menampilkanInformasi
-    usecase (Daftar akun) as daftarAkun
-    usecase (Login) as login
+    usecase (Lihat histori appointment) as lihatHistori
     usecase (Booking service) as bs
-    usecase (Batalkan jadwal) as batalJadwal
 }
 
-U -- menampilkanInformasi
-
-K -- ruDataDiri
-K -- login
+K -- menampilkanInformasi
+K -- lihatHistori
 K -- bs
-K -- batalJadwal
 
 ' note right of daftarAkun
 '     Daftar menggunakan No. Telepon, Nama, Password
@@ -38,10 +27,5 @@ K -- batalJadwal
 ' note top of bs
 '     pilih waktu, cabang, dan operator, dan service
 ' end note
-
-V -- daftarAkun
-
-login <.. bs : include
-login <.. batalJadwal : include
 
 @enduml
