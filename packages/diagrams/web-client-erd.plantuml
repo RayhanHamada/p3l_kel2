@@ -9,7 +9,7 @@ entity Admin {
     nama_admin      : varchar
     email           : string
     password        : string
-    lastLoginAt     : timestamp
+    last_login_at   : timestamp
 
     created_at      : timestamp
     updated_at      : timestamp
@@ -58,7 +58,6 @@ entity Klien {
     nama_klien      : varchar
     phone_number    : varchar
     jenis_kelamin   : enum('P', 'W')
-    last_login_at   : timestamp
 
     created_at      : timestamp
     updated_at      : timestamp
